@@ -1,0 +1,22 @@
+http:
+  services:
+    mail:
+      loadBalancer:
+        servers:
+          - url: https://qiye.aliyun.com/
+  middlewares:
+    mail-wellknown:
+      redirectRegex:
+        regex: ^https://(.*)
+        replacement: https://static.$1
+  routers:
+    mail: 
+      entryPoints: https
+      rule: Host(`mail.bonjour.zone`)
+      service: mail
+    mail-wellknown: 
+      entryPoints: https
+      rule: Host(`bonjour.zone`) && PathPrefix(`/.well-known/autoconfig/mail`)
+      middlewares:
+        - mail-wellknown
+      service: mail
