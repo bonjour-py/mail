@@ -11,11 +11,13 @@ http:
         replacement: https://static.$1
   routers:
     mail: 
-      entryPoints: https
+      entryPoints: 
+        - https
       rule: Host(`mail.bonjour.zone`)
       service: mail
     mail-wellknown: 
-      entryPoints: https
+      entryPoints: 
+        - https
       rule: Host(`bonjour.zone`) && PathPrefix(`/.well-known/autoconfig/mail`)
       middlewares:
         - mail-wellknown
